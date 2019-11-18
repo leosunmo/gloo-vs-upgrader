@@ -1,0 +1,62 @@
+apiVersion: gateway.solo.io/v1
+kind: VirtualService
+metadata:
+  name: auth
+  namespace: example
+spec:
+  displayName: auth
+  virtualHost:
+    name: example.auth
+    domains:
+    - auth.example.com
+    routes:
+    - matcher:
+      - methods:
+        - OPTIONS
+        prefix: /
+      routeAction:
+        single:
+          upstream:
+            name: example-example-auth-backend-auth-backend-81
+            namespace: gloo-system
+      options:
+        extensions:
+          configs:
+            extauth:
+              disable: true
+    - matcher:
+      - methods: []
+        prefix: /api
+      routeAction:
+        single:
+          upstream:
+            name: example-example-auth-backend-auth-backend-81
+            namespace: gloo-system
+    - matcher:
+      - methods: []
+        prefix: /
+      routeAction:
+        single:
+          upstream:
+            name: example-example-auth-backend-auth-back-31562
+            namespace: gloo-system
+      options:
+        extensions:
+          configs:
+            extauth:
+              disable: true
+    options:
+      extauth: {}
+      cors:
+        allowCredentials: true
+        allowHeaders:
+        - Content-Type,Authorization,X-User-Agent
+        allowMethods:
+        - GET
+        - POST
+        - PUT
+        allowOrigin:
+        - '*'
+        exposeHeaders:
+        - WWW-Authenticate
+        maxAge: 1d

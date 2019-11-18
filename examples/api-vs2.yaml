@@ -1,0 +1,57 @@
+apiVersion: gateway.solo.io/v1
+kind: VirtualService
+metadata:
+  name: api
+  namespace: public
+spec:
+  displayName: api
+  virtualHost:
+    name: ""
+    domains:
+    - api.example.com
+    routes:
+    - matcher:
+      - methods:
+        - OPTIONS
+        prefix: /
+      routeAction:
+        single:
+          upstream:
+            name: public-api-api-80
+            namespace: gloo-system
+      options:
+        extensions:
+          configs:
+            extauth:
+              disable: true
+    - matcher:
+      - methods: []
+        prefix: /
+      routeAction:
+        single:
+          upstream:
+            name: public-api-api-80
+            namespace: gloo-system
+      options:
+        timeout: 80s
+        headerManipulation:
+          requestHeadersToAdd:
+          - header:
+              key: X-Forwarded-Proto
+              value: HTTPS
+            append: false
+        retries:
+          retryOn: 5xx
+          numRetries: 3
+          perTryTimeout: 15s
+    options:
+      extauth: {}
+      cors:
+        allowCredentials: true
+        allowHeaders:
+        - Content-Type,Authorization,X-User-Agent
+        allowOrigin:
+        - '*'
+        exposeHeaders:
+        - WWW-Authenticate
+        maxAge: 1d

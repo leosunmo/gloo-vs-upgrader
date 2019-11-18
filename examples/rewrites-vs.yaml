@@ -1,0 +1,82 @@
+apiVersion: gateway.solo.io/v1
+kind: VirtualService
+metadata:
+  name: ext-service-api
+  namespace: public
+spec:
+  displayName: ext_service-api
+  virtualHost:
+    domains:
+    - service-apiexample.com
+    corsPolicy:
+      allowCredentials: true
+      allowHeaders:
+      - Content-Type,Authorization,X-User-Agent
+      allowMethods:
+      - GET
+      - POST
+      - PUT
+      allowOrigin:
+      - '*'
+      exposeHeaders:
+      - WWW-Authenticate
+      maxAge: 1d
+    routes:
+    - matcher:
+        methods:
+        - OPTIONS
+        prefix: /
+      routePlugins:
+        extensions:
+          configs:
+            extauth:
+              disable: true
+      routeAction:
+        single:
+          upstream:
+            name: public-api-api-80
+            namespace: gloo-system
+    - matcher:
+        methods: []
+        prefix: /signup
+      routeAction:
+        single:
+          upstream:
+            name: public-signup-backend-signup-backend-81
+            namespace: gloo-system
+        extensions:
+          configs:
+            extauth:
+              disable: true
+    - matcher:
+        methods: []
+        prefix: /verify-invite
+      routeAction:
+        single:
+          upstream:
+            name: public-signup-backend-signup-backend-81
+            namespace: gloo-system
+      routePlugins:
+        prefixRewrite:
+          prefixRewrite: /public/verify-invite
+        extensions:
+          configs:
+            extauth:
+              disable: true
+    - matcher:
+        methods: []
+        prefix: /geocode-api
+      routeAction:
+        single:
+          upstream:
+            name: default-geocode-api-geocode-api-80
+            namespace: gloo-system
+      routePlugins:
+        prefixRewrite:
+          prefixRewrite: " "
+    virtualHostPlugins:
+      extensions:
+        configs:
+          # rate-limit: {}
+          extauth:
+            customAuth: {}
