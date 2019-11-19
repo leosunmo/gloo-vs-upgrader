@@ -8,8 +8,9 @@ type VirtualService struct {
 }
 
 type Metadata struct {
-	Name      string `yaml:"name"`
-	Namespace string `yaml:"namespace"`
+	Name      string      `yaml:"name"`
+	Namespace string      `yaml:"namespace"`
+	Labels    interface{} `yaml:"labels,omitempty"`
 }
 
 type Spec struct {

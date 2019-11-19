@@ -41,6 +41,7 @@ func (v1Vs *VirtualService) buildMetadata(v0Vs glooV0.VirtualService) error {
 	v1Vs.Metadata = Metadata{
 		Name:      v0Vs.Metadata.Name,
 		Namespace: v0Vs.Metadata.Namespace,
+		Labels:    v0Vs.Metadata.Labels,
 	}
 	return nil
 }

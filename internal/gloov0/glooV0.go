@@ -7,8 +7,9 @@ type VirtualService struct {
 	Spec       Spec     `yaml:"spec"`
 }
 type Metadata struct {
-	Name      string `yaml:"name"`
-	Namespace string `yaml:"namespace"`
+	Name      string      `yaml:"name"`
+	Namespace string      `yaml:"namespace"`
+	Labels    interface{} `yaml:"labels,omitempty"`
 }
 type CorsPolicy struct {
 	AllowCredentials bool     `yaml:"allowCredentials,omitempty"`
