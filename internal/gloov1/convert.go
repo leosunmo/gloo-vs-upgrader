@@ -110,15 +110,13 @@ func (v1Vs *VirtualService) buildRoutes(v0Vs glooV0.VirtualService, kubeSvc bool
 		// Use RouteOptions instead of RoutePlugins
 		// RoutePlugins/RouteOptions
 		if v0Route.RoutePlugins != nil {
-			v1Route.RouteOptions = &RouteOptions{}
 			// RoutePlugin Extensions
 			if v0Route.RoutePlugins.Extensions != nil {
-				v1Route.RouteOptions.Extensions = &Extensions{
-					Configs: Configs{
-						Extauth: Extauth{
-							Disable: v0Route.RoutePlugins.Extensions.Configs.Extauth.Disable,
-						},
-					},
+				if v1Route.RouteOptions == nil {
+					v1Route.RouteOptions = &RouteOptions{}
+				}
+				v1Route.RouteOptions.Extauth = Extauth{
+					Disable: v0Route.RoutePlugins.Extensions.Configs.Extauth.Disable,
 				}
 			} // RoutePlugin Extensions
 
@@ -129,6 +127,9 @@ func (v1Vs *VirtualService) buildRoutes(v0Vs glooV0.VirtualService, kubeSvc bool
 					v1rh := RequestHeadersToAdd{Append: h.Append, Header: Header(h.Header)}
 					v1rhs = append(v1rhs, v1rh)
 				}
+				if v1Route.RouteOptions == nil {
+					v1Route.RouteOptions = &RouteOptions{}
+				}
 				v1Route.RouteOptions.HeaderManipulation = &HeaderManipulation{
 					RequestHeadersToAdd: &v1rhs,
 				}
@@ -136,18 +137,28 @@ func (v1Vs *VirtualService) buildRoutes(v0Vs glooV0.VirtualService, kubeSvc bool
 
 			// Retries
 			if v0Route.RoutePlugins.Retries != nil {
+				if v1Route.RouteOptions == nil {
+					v1Route.RouteOptions = &RouteOptions{}
+				}
 				v1Retries := Retries(*v0Route.RoutePlugins.Retries)
 				v1Route.RouteOptions.Retries = &v1Retries
 			} // Retriues
 
 			// PrefixRewrite
 			if v0Route.RoutePlugins.PrefixRewrite != nil {
+				if v1Route.RouteOptions == nil {
+					v1Route.RouteOptions = &RouteOptions{}
+				}
 				v1Route.RouteOptions.PrefixRewrite = v0Route.RoutePlugins.PrefixRewrite.PrefixRewrite
 			} // PrefixRewrite
 
 			// Timeout
-			v1Route.RouteOptions.Timeout = v0Route.RoutePlugins.Timeout
-
+			if v0Route.RoutePlugins.Timeout != "" {
+				if v1Route.RouteOptions == nil {
+					v1Route.RouteOptions = &RouteOptions{}
+				}
+				v1Route.RouteOptions.Timeout = v0Route.RoutePlugins.Timeout
+			}
 		} // RoutePlugins/RouteOptions
 
 		v1Routes = append(v1Routes, v1Route)

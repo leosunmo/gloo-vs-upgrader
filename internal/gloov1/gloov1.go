@@ -66,20 +66,12 @@ type ResourceRef struct {
 }
 
 type RouteOptions struct {
-	Extensions         *Extensions         `yaml:"extensions,omitempty"`
+	Extauth            Extauth             `yaml:"extauth,omitempty"`
 	Timeout            string              `yaml:"timeout,omitempty"`
 	HeaderManipulation *HeaderManipulation `yaml:"headerManipulation,omitempty"`
 	Retries            *Retries            `yaml:"retries,omitempty"`
 	PrefixRewrite      string              `yaml:"prefixRewrite,omitempty"`
 	Cors               CorsPolicy          `yaml:"cors,omitempty"`
-}
-
-type Extensions struct {
-	Configs Configs `yaml:"configs,omitempty"`
-}
-
-type Configs struct {
-	Extauth Extauth `yaml:"extauth,omitempty"`
 }
 
 type Extauth struct {
