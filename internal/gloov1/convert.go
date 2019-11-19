@@ -51,10 +51,10 @@ func (v1Vs *VirtualService) buildVirtualHost(v0Vs glooV0.VirtualService) error {
 	v1Vs.Spec.DisplayName = v0Vs.Spec.DisplayName
 	v1Vs.Spec.VirtualHost.Domains = v0Vs.Spec.VirtualHost.Domains
 
-	v1Vs.Spec.VirtualHost.Options = &VirtualHostOptions{}
-	v1Opts := v1Vs.Spec.VirtualHost.Options
 	// VirtualHostPlugins to VirtualHostOptions
 	if v0Vs.Spec.VirtualHost.VirtualHostPlugins != nil {
+		v1Vs.Spec.VirtualHost.Options = &VirtualHostOptions{}
+		v1Opts := v1Vs.Spec.VirtualHost.Options
 		// ExtAuth
 		if v0Vs.Spec.VirtualHost.VirtualHostPlugins.Extensions.Configs.Extauth != nil {
 			// Make empty map of string to string as we might use this setting
@@ -71,6 +71,10 @@ func (v1Vs *VirtualService) buildVirtualHost(v0Vs glooV0.VirtualService) error {
 	// Cors
 	// Cors is moving from high level VirtualHost to VirtualHostOptions
 	if v0Vs.Spec.VirtualHost.CorsPolicy != nil {
+		if v1Vs.Spec.VirtualHost.Options == nil {
+			v1Vs.Spec.VirtualHost.Options = &VirtualHostOptions{}
+		}
+		v1Opts := v1Vs.Spec.VirtualHost.Options
 		v1Cors := CorsPolicy(*v0Vs.Spec.VirtualHost.CorsPolicy)
 		v1Opts.Cors = &v1Cors
 	}
