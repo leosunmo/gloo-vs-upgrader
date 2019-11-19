@@ -142,9 +142,7 @@ func (v1Vs *VirtualService) buildRoutes(v0Vs glooV0.VirtualService, kubeSvc bool
 
 			// PrefixRewrite
 			if v0Route.RoutePlugins.PrefixRewrite != nil {
-				v1Route.RouteOptions.PrefixRewrite = &PrefixRewrite{
-					PrefixRewrite: v0Route.RoutePlugins.PrefixRewrite.PrefixRewrite,
-				}
+				v1Route.RouteOptions.PrefixRewrite = v0Route.RoutePlugins.PrefixRewrite.PrefixRewrite
 			} // PrefixRewrite
 
 			// Timeout

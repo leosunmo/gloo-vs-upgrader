@@ -70,7 +70,7 @@ type RouteOptions struct {
 	Timeout            string              `yaml:"timeout,omitempty"`
 	HeaderManipulation *HeaderManipulation `yaml:"headerManipulation,omitempty"`
 	Retries            *Retries            `yaml:"retries,omitempty"`
-	PrefixRewrite      *PrefixRewrite      `yaml:"prefixRewrite,omitempty"`
+	PrefixRewrite      string              `yaml:"prefixRewrite,omitempty"`
 	Cors               CorsPolicy          `yaml:"cors,omitempty"`
 }
 
@@ -104,10 +104,6 @@ type Retries struct {
 	RetryOn       string `yaml:"retryOn"`
 	NumRetries    int    `yaml:"numRetries"`
 	PerTryTimeout string `yaml:"perTryTimeout"`
-}
-
-type PrefixRewrite struct {
-	PrefixRewrite string `yaml:"prefixRewrite,omitempty"`
 }
 
 type VirtualHostOptions struct {
