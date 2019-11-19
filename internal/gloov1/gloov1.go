@@ -18,7 +18,6 @@ type Spec struct {
 }
 
 type VirtualHost struct {
-	Name    string              `yaml:"name"`
 	Domains []string            `yaml:"domains"`
 	Routes  []Route             `yaml:"routes"`
 	Options *VirtualHostOptions `yaml:"options,omitempty"`

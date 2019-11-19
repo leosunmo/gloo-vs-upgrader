@@ -49,7 +49,6 @@ func (v1Vs *VirtualService) buildVirtualHost(v0Vs glooV0.VirtualService) error {
 	// Copy the things that haven't changed
 	v1Vs.Spec.DisplayName = v0Vs.Spec.DisplayName
 	v1Vs.Spec.VirtualHost.Domains = v0Vs.Spec.VirtualHost.Domains
-	v1Vs.Spec.VirtualHost.Name = v0Vs.Spec.VirtualHost.Name
 
 	v1Vs.Spec.VirtualHost.Options = &VirtualHostOptions{}
 	v1Opts := v1Vs.Spec.VirtualHost.Options
