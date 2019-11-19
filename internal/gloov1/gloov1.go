@@ -42,7 +42,7 @@ type ExtAuthExtension struct {
 }
 
 type Route struct {
-	Matchers     []Matchers    `yaml:"matcher"`
+	Matchers     []Matchers    `yaml:"matchers"`
 	RouteAction  RouteAction   `yaml:"routeAction"`
 	RouteOptions *RouteOptions `yaml:"options,omitempty"`
 }

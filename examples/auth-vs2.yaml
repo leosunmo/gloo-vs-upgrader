@@ -10,7 +10,7 @@ spec:
     domains:
     - auth.example.com
     routes:
-    - matcher:
+    - matchers:
       - methods:
         - OPTIONS
         prefix: /
@@ -24,7 +24,7 @@ spec:
           configs:
             extauth:
               disable: true
-    - matcher:
+    - matchers:
       - methods: []
         prefix: /api
       routeAction:
@@ -32,7 +32,7 @@ spec:
           upstream:
             name: example-example-auth-backend-auth-backend-81
             namespace: gloo-system
-    - matcher:
+    - matchers:
       - methods: []
         prefix: /
       routeAction:

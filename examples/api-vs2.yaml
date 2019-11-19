@@ -10,7 +10,7 @@ spec:
     domains:
     - api.example.com
     routes:
-    - matcher:
+    - matchers:
       - methods:
         - OPTIONS
         prefix: /
@@ -24,7 +24,7 @@ spec:
           configs:
             extauth:
               disable: true
-    - matcher:
+    - matchers:
       - methods: []
         prefix: /
       routeAction:

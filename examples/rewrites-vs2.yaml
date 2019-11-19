@@ -10,7 +10,7 @@ spec:
     domains:
     - service-apiexample.com
     routes:
-    - matcher:
+    - matchers:
       - methods:
         - OPTIONS
         prefix: /
@@ -24,7 +24,7 @@ spec:
           configs:
             extauth:
               disable: true
-    - matcher:
+    - matchers:
       - methods: []
         prefix: /signup
       routeAction:
@@ -32,7 +32,7 @@ spec:
           upstream:
             name: public-signup-backend-signup-backend-81
             namespace: gloo-system
-    - matcher:
+    - matchers:
       - methods: []
         prefix: /verify-invite
       routeAction:
@@ -47,7 +47,7 @@ spec:
               disable: true
         prefixRewrite:
           prefixRewrite: /public/verify-invite
-    - matcher:
+    - matchers:
       - methods: []
         prefix: /geocode-api
       routeAction:
