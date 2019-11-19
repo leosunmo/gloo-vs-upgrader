@@ -38,7 +38,11 @@ type Matchers struct {
 }
 
 type ExtAuthExtension struct {
-	CustomAuth map[string]string `yaml:"customAuth,omitempty"`
+	CustomAuth CustomAuth `yaml:"customAuth"`
+}
+
+type CustomAuth struct {
+	ContextExtensions map[string]string `yaml:"contextExtensions,omitempty"`
 }
 
 type Route struct {

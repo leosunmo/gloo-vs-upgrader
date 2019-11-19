@@ -33,7 +33,7 @@ type Extensions struct {
 	Configs Configs `yaml:"configs,omitempty"`
 }
 type VHExtauth struct {
-	CustomAuth struct{} `yaml:"customAuth,omitempty"`
+	CustomAuth struct{} `yaml:"customAuth"`
 }
 type VHConfigs struct {
 	Extauth   *VHExtauth `yaml:"extauth,omitempty"`
@@ -44,6 +44,7 @@ type VHExtensions struct {
 }
 type RoutePlugins struct {
 	Extensions         *Extensions         `yaml:"extensions,omitempty"`
+	Extauth            *Extauth            `yaml:"extauth,omitempty"`
 	Timeout            string              `yaml:"timeout"`
 	HeaderManipulation *HeaderManipulation `yaml:"headerManipulation"`
 	Retries            *Retries            `yaml:"retries"`
@@ -91,6 +92,7 @@ type Routes struct {
 }
 type VirtualHostPlugins struct {
 	Extensions VHExtensions `yaml:"extensions,omitempty"`
+	Extauth    *VHExtauth   `yaml:"extauth,omitempty"`
 }
 type VirtualHost struct {
 	CorsPolicy         *CorsPolicy         `yaml:"corsPolicy,omitempty"`

@@ -56,11 +56,12 @@ func (v1Vs *VirtualService) buildVirtualHost(v0Vs glooV0.VirtualService) error {
 		v1Vs.Spec.VirtualHost.Options = &VirtualHostOptions{}
 		v1Opts := v1Vs.Spec.VirtualHost.Options
 		// ExtAuth
-		if v0Vs.Spec.VirtualHost.VirtualHostPlugins.Extensions.Configs.Extauth != nil {
+		if v0Vs.Spec.VirtualHost.VirtualHostPlugins.Extensions.Configs.Extauth != nil || v0Vs.Spec.VirtualHost.VirtualHostPlugins.Extauth != nil {
 			// Make empty map of string to string as we might use this setting
 			// in the future
-			v1Opts.Extauth = &ExtAuthExtension{}
-			v1Opts.Extauth.CustomAuth = map[string]string{}
+			v1Opts.Extauth = &ExtAuthExtension{
+				CustomAuth: CustomAuth{},
+			}
 		}
 		// Ratelimit, pretty sure this path is Enterprise only now.
 		if v0Vs.Spec.VirtualHost.VirtualHostPlugins.Extensions.Configs.RateLimit != nil {
@@ -110,7 +111,7 @@ func (v1Vs *VirtualService) buildRoutes(v0Vs glooV0.VirtualService, kubeSvc bool
 		// Use RouteOptions instead of RoutePlugins
 		// RoutePlugins/RouteOptions
 		if v0Route.RoutePlugins != nil {
-			// RoutePlugin Extensions
+			// RoutePlugin Extensions/Extauth
 			if v0Route.RoutePlugins.Extensions != nil {
 				if v1Route.RouteOptions == nil {
 					v1Route.RouteOptions = &RouteOptions{}
@@ -118,7 +119,14 @@ func (v1Vs *VirtualService) buildRoutes(v0Vs glooV0.VirtualService, kubeSvc bool
 				v1Route.RouteOptions.Extauth = Extauth{
 					Disable: v0Route.RoutePlugins.Extensions.Configs.Extauth.Disable,
 				}
-			} // RoutePlugin Extensions
+			} else if v0Route.RoutePlugins.Extauth != nil {
+				if v1Route.RouteOptions == nil {
+					v1Route.RouteOptions = &RouteOptions{}
+				}
+				v1Route.RouteOptions.Extauth = Extauth{
+					Disable: v0Route.RoutePlugins.Extauth.Disable,
+				}
+			} // RoutePlugin Extensions/Extauth
 
 			// Header Manipulation
 			if v0Route.RoutePlugins.HeaderManipulation != nil {
